@@ -19,24 +19,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("orders")
 public class OrderController {
 
-    @Autowired
-    OrderService orderService;
+
+    OrderService orderService = new OrderService();
     @PostMapping("/add-order")
     public ResponseEntity<String> addOrder(@RequestBody Order order){
-        orderService.addOrder(order);
-        return new ResponseEntity<>("New order added successfully", HttpStatus.CREATED);
+
+        return new ResponseEntity<>(orderService.addOrder(order), HttpStatus.CREATED);
     }
 
     @PostMapping("/add-partner/{partnerId}")
     public ResponseEntity<String> addPartner(@PathVariable String partnerId){
-        orderService.addPartner(partnerId);
-        return new ResponseEntity<>("New delivery partner added successfully", HttpStatus.CREATED);
+
+        return new ResponseEntity<>(orderService.addPartner(partnerId), HttpStatus.CREATED);
     }
     @PutMapping("/add-order-partner-pair")
     public ResponseEntity<String> addOrderPartnerPair(@RequestParam String orderId, @RequestParam String partnerId){
-        orderService.addOrderPartnerPair(orderId,partnerId);
         //This is basically assigning that order to that partnerId
-        return new ResponseEntity<>("New order-partner pair added successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(orderService.addOrderPartnerPair(orderId,partnerId), HttpStatus.CREATED);
     }
     @GetMapping("/get-order-by-id/{orderId}")
     public ResponseEntity<Order> getOrderById(@PathVariable String orderId){
@@ -103,14 +102,13 @@ public class OrderController {
     public ResponseEntity<String> deletePartnerById(@PathVariable String partnerId){
         //Delete the partnerId
         //And push all his assigned orders to unassigned orders.
-        orderService.deletePartnerById(partnerId);
-        return new ResponseEntity<>(partnerId + " removed successfully", HttpStatus.CREATED);
+
+        return new ResponseEntity<>(orderService.deletePartnerById(partnerId), HttpStatus.CREATED);
     }
     @DeleteMapping("/delete-order-by-id/{orderId}")
     public ResponseEntity<String> deleteOrderById(@PathVariable String orderId){
-        orderService.deleteOrderById(orderId);
         //Delete an order and also
         // remove it from the assigned order of that partnerId
-        return new ResponseEntity<>(orderId + " removed successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(orderService.deleteOrderById(orderId), HttpStatus.CREATED);
     }
 }

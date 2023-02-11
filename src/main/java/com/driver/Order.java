@@ -4,10 +4,8 @@ public class Order {
 
     private String id;
     private int deliveryTime;
+    private String deliveryTimeStr;
 
-    public Order(){
-
-    }
 
     public Order(String id, String deliveryTime) {
 
@@ -15,18 +13,11 @@ public class Order {
         //deliveryTime  = HH*60 + MM
         this.id = id;
         String hr = deliveryTime.substring(0,2);
-        String min = deliveryTime.substring(3,5);
+        String min = deliveryTime.substring(3);
         int hour = Integer.parseInt(hr);
         int minute = Integer.parseInt(min);
         this.deliveryTime = hour*60 + minute;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setDeliveryTime(int deliveryTime) {
-        this.deliveryTime = deliveryTime;
+        this.deliveryTimeStr = deliveryTime;
     }
 
     public String getId() {
@@ -34,4 +25,8 @@ public class Order {
     }
 
     public int getDeliveryTime() {return deliveryTime;}
+
+    public String getDeliveryTimeStr() {
+        return deliveryTimeStr;
+    }
 }
